@@ -1,47 +1,43 @@
 use regex::Regex;
 use std::io;
 
-// fn validate_date_format(date: &str) {
-// // check if date is of struct Date if not throw an error
-// let re = Regex::new(r"^\d\d/\d\d/\d\d\d\d$").unwrap();
-// if re.is_match(date) {
-// println!(
-// "the date given is not properly formatted,\nplease try again with the correct fomat."
-// );
-// }
-// }
+fn date_greater_than_tomorrow(_date: &str) -> bool {
+    // check if date is greater than Date::now if not throw an error
+    true
+}
 
-// fn validate_date_greater_than_today(date: &str) {
-// // check if date is greater than Date::now if not throw an error
-// }
+fn calculate_days_left(_date: &str) -> i32 {
+    // date - now
+    // let now = Utc::now;
+    let days_left: i32 = 0;
 
-// fn calculate_time_left(_date: String) -> i32 {
-// // date - now
-// // let now = Utc::now;
-// let days_left: i32 = 0;
-//
-// return days_left;
-// }
+    return days_left;
+}
 
 fn main() {
     println!("give us the date and we'll tell you how much time is left for it.");
-    println!("please follow this format: mm/dd/yy.");
+    println!("please follow this format: mm-dd-yyyy.");
 
     let mut date = String::new();
 
-    loop {
+    let date = loop {
         io::stdin()
             .read_line(&mut date)
             .expect("Failed to read line");
         let date = date.trim();
-        let re = Regex::new(r"^\d\d/\d\d/\d\d\d\d$").unwrap();
-        if !re.is_match(date) {
+        let date_regex = Regex::new(r"^\d{2}-\d{2}-\d{4}$").unwrap();
+        if !date_regex.is_match(date) {
             println!("the date given is not properly formatted,\nplease try again with the correct fomat.");
         } else {
-            break;
+            break date;
         }
+    };
+
+    if !date_greater_than_tomorrow(&date) {
+        println!("the date given is old");
+        println!("try with a date from the future :)");
     }
 
-    // let time_left = calculate_time_left(date);
-    println!("{}, is how much time left in days for it.", date);
+    let days_left = calculate_days_left(date);
+    println!("{}, days left.", days_left);
 }
